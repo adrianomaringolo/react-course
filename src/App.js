@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
-import Radium, {StyleRoot} from 'radium';
 
 // start the name with Capital letter so React will understand it as a custom component, not a html tag
 
@@ -40,21 +39,8 @@ class App extends Component {
   }
 
   render() {
-    // inline style
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
-
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
       persons = (
@@ -71,35 +57,27 @@ class App extends Component {
           }
         </div> 
       );
-
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+      btnClass = classes.Red;
     }
 
-    let classes = [];
+    let assignedClasses = [];
 
     if (this.state.persons.length <= 2) {
-      classes.push('red');
+      assignedClasses.push( classes.red );
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      assignedClasses.push( classes.bold );
     }
 
     return (
-      <StyleRoot>
-        <div className="App">
-          <h1 >Hi, I'm a React App</h1>
-          <p className={classes.join(' ')}>I was created using create-react-app</p>
-          <button 
-            style={style}
-            onClick={this.togglePersonsHandler}>Toggle Persons</button>
+      <div className={classes.App}>
+        <h1 >Hi, I'm a React App</h1>
+        <p className={assignedClasses.join(' ')}>I was created using create-react-app</p>
+        <button className={btnClass}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
 
-          { persons }
-        </div>
-      </StyleRoot>
+        { persons }
+      </div>
     );
 
     /* return React.createElement('div', { className: 'App' },
@@ -107,4 +85,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;
