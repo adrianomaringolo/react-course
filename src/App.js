@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 // start the name with Capital letter so React will understand it as a custom component, not a html tag
 
@@ -41,18 +42,20 @@ class App extends Component {
   render() {
     let persons = null;
     let btnClass = '';
-
+ 
     if (this.state.showPersons) {
       persons = (
         <div>
           { 
             this.state.persons.map((person, index) => {
-              return <Person 
-                name={person.name} 
-                age={person.age}
-                key={person.id}
-                click={() => this.deletePersonHandler(index)}
-                changed={(event) => this.nameChangedHandler(event, person.id)}/> 
+              return <ErrorBoundary
+                key={person.id}>
+                <Person 
+                  name={person.name} 
+                  age={person.age}
+                  click={() => this.deletePersonHandler(index)}
+                  changed={(event) => this.nameChangedHandler(event, person.id)}/>
+                </ErrorBoundary>
             }) 
           }
         </div> 
