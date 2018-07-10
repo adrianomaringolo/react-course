@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
-class Persons extends Component { 
+class Persons extends PureComponent { 
 
   constructor(props) {
     super(props);
     console.log('[Persons.js] Inside constructor', props);
+    this.lastPersonRef = React.createRef();
   }
 
   componentWillMount() {
@@ -20,10 +21,10 @@ class Persons extends Component {
     console.log('[UPDATE Persons.js] Inside componentWillReceiveProps', nextProps);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log('[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
-    return nextProps.persons !== this.props.persons;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE Persons.js] Inside shouldComponentUpdate', nextProps, nextState);
+  //   return nextProps.persons !== this.props.persons;
+  // }
 
   componentWillUpdate(nextProps, nextState) {
     console.log('[UPDATE Persons.js] Inside componentWillUpdate', nextProps, nextState);
@@ -31,6 +32,7 @@ class Persons extends Component {
 
   componentDidUpdate() {
     console.log('[UPDATE Persons.js] Inside componentDidUpdate');
+    this.lastPersonRef.current.focus();
   }
 
   render() {
@@ -38,8 +40,10 @@ class Persons extends Component {
 
     return this.props.persons.map((person, index) => {
       return <Person 
+        position={index}
         name={person.name} 
         age={person.age}
+        ref={this.lastPersonRef}
         key={person.id}
         click={() => this.props.clicked(index)}
         changed={(event) => this.props.changed(event, person.id)}/> 
